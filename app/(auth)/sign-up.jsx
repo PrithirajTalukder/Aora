@@ -35,7 +35,7 @@ const SignUp = () => {
       const result = await createUser(form.email, form.password, form.username)
       
 
-      router.replace('/home')
+      router.replace('/sign-in')
     } catch (error) {
 
       Alert.alert('Error', error.message)
