@@ -1,18 +1,31 @@
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { FlatList, Image, RefreshControl, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
 import { StatusBar } from 'expo-status-bar'
 import EmptyState from '../../components/EmptyState'
+import useAppwrite from '../../lib/useAppwrite'
+import { getAllPosts } from '../../lib/appwrite'
+
 
 const Home = () => {
+  const { data:posts } = useAppwrite(getAllPosts);
+
+  const [refreshing, setRefreshing] = useState(false)
+
+  const onRefresh = async () =>{
+    setRefreshing(true);
+    setRefreshing(false);
+  }
+
+  console.log(posts);
   return (
     <SafeAreaView className="bg-primary border-2 border-red-500 h-full">
       <FlatList
 
-        data={[]}
+        data={[{id:1}, {id:2}, {id:3}]}
         keyExtractor={(item) => item.$id}
         renderItem={({item}) =>(
           <Text className="text-3xl text-white">{item.id}</Text>
@@ -65,7 +78,7 @@ const Home = () => {
               </Text> 
 
               <Trending 
-              posts = {[] ?? []}
+              posts = {[{id:1}, {id:2}, {id:3}] ?? []}
               
               
               />
@@ -82,6 +95,9 @@ const Home = () => {
           
           />
   )}
+
+  refreshControl={<RefreshControl
+    refreshing={refreshing} onRefresh={onRefresh} />}
         />
 
 <StatusBar  backgroundColor='#161622' style='light'/>
