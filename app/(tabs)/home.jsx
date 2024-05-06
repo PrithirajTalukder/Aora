@@ -8,27 +8,29 @@ import { StatusBar } from 'expo-status-bar'
 import EmptyState from '../../components/EmptyState'
 import useAppwrite from '../../lib/useAppwrite'
 import { getAllPosts } from '../../lib/appwrite'
+import VideoCard from '../../components/VideoCard'
 
 
 const Home = () => {
-  const { data:posts } = useAppwrite(getAllPosts);
+  const { data:posts, refetch } = useAppwrite(getAllPosts);
 
   const [refreshing, setRefreshing] = useState(false)
 
   const onRefresh = async () =>{
     setRefreshing(true);
+    await refetch();
     setRefreshing(false);
   }
 
-  console.log(posts);
+
   return (
     <SafeAreaView className="bg-primary border-2 border-red-500 h-full">
       <FlatList
 
-        data={[{id:1}, {id:2}, {id:3}]}
+        data={posts}
         keyExtractor={(item) => item.$id}
         renderItem={({item}) =>(
-          <Text className="text-3xl text-white">{item.id}</Text>
+          <VideoCard video ={item} />
         )}
 
         ListHeaderComponent={() =>(
@@ -78,7 +80,7 @@ const Home = () => {
               </Text> 
 
               <Trending 
-              posts = {[{id:1}, {id:2}, {id:3}] ?? []}
+              posts = {[] ?? []}
               
               
               />
