@@ -7,12 +7,13 @@ import Trending from '../../components/Trending'
 import { StatusBar } from 'expo-status-bar'
 import EmptyState from '../../components/EmptyState'
 import useAppwrite from '../../lib/useAppwrite'
-import { getAllPosts } from '../../lib/appwrite'
+import { getAllPosts, getLatestPosts } from '../../lib/appwrite'
 import VideoCard from '../../components/VideoCard'
 
 
 const Home = () => {
   const { data:posts, refetch } = useAppwrite(getAllPosts);
+  const { data:latestposts} = useAppwrite(getLatestPosts);
 
   const [refreshing, setRefreshing] = useState(false)
 
@@ -80,7 +81,7 @@ const Home = () => {
               </Text> 
 
               <Trending 
-              posts = {[] ?? []}
+              posts = {latestposts ?? []}
               
               
               />
