@@ -13,7 +13,7 @@ import VideoCard from '../../components/VideoCard'
 
 const Home = () => {
   const { data:posts, refetch } = useAppwrite(getAllPosts);
-  const { data:latestposts} = useAppwrite(getLatestPosts);
+  const { data:latestPosts} = useAppwrite(getLatestPosts);
 
   const [refreshing, setRefreshing] = useState(false)
 
@@ -81,7 +81,7 @@ const Home = () => {
               </Text> 
 
               <Trending 
-              posts = {latestposts ?? []}
+              posts = {latestPosts ?? []}
               
               
               />
