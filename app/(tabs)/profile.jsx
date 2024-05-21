@@ -1,19 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
-import { FlatList } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SearchInput from '../../components/SearchInput'
 import { StatusBar } from 'expo-status-bar'
 import EmptyState from '../../components/EmptyState'
 import useAppwrite from '../../lib/useAppwrite'
-import { searchPosts } from '../../lib/appwrite'
+import { getUserPosts, searchPosts } from '../../lib/appwrite'
 import VideoCard from '../../components/VideoCard'
 import { useLocalSearchParams } from 'expo-router'
+import {useGlobalContext} from '../../context/GlobalProvider'
 
 
 const Profile = () => {
-  const { query } = useLocalSearchParams()
-  const { data: posts, refetch } = useAppwrite(() => searchPosts(query));
+  const { user, setUser, setIsLoggedIn } = useGlobalContext();
+  const { data: posts } = useAppwrite(() => getUserPosts(query));
   
 useEffect(() => {
   refetch()
